@@ -5,7 +5,7 @@ export default function Hero() {
       className="position-relative d-flex align-items-center"
       style={{
         minHeight: "100vh",
-        backgroundImage: "url(/images/hero.jpg)",
+        backgroundImage: "url(/images/exterior-showcase.jpg)",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

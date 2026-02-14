@@ -21,13 +21,13 @@ export default function Portfolio() {
       location: "Carolina Beach",
     },
     {
-      image: "/images/project-4.jpg",
+      image: "/images/exterior-showcase.jpg",
       title: "The Cape Retreat",
       category: "Waterfront",
       location: "Figure Eight Island",
     },
     {
-      image: "/images/project-5.jpg",
+      image: "/images/interior-showcase.jpg",
       title: "Harbor Oak Great Room",
       category: "Interior",
       location: "Porters Neck",

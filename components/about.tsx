@@ -12,8 +12,8 @@ export default function About() {
           <div className="col-lg-6">
             <div className="position-relative">
               <img
-                src="/images/about.jpg"
-                alt="Blanton Building team reviewing plans on a job site"
+                src="/images/interior-showcase.jpg"
+                alt="Luxury open-concept living space with coastal design by Blanton Building"
                 className="img-fluid w-100"
                 style={{ objectFit: "cover", height: "500px" }}
               />
