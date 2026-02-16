@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from "react";
 
+const sections = ["home", "about", "services", "portfolio", "testimonials", "contact"];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -12,6 +15,44 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    for (const id of sections) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    }
+
+    return () => {
+      for (const obs of observers) obs.disconnect();
+    };
+  }, []);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+    // Close mobile menu
+    const toggler = document.querySelector<HTMLElement>(".navbar-collapse.show");
+    if (toggler) {
+      const bsCollapse = document.querySelector<HTMLButtonElement>(".navbar-toggler");
+      bsCollapse?.click();
+    }
+  };
 
   return (
     <nav
@@ -26,6 +67,7 @@ export default function Navbar() {
         <a
           className="navbar-brand d-flex align-items-center"
           href="#home"
+          onClick={(e) => handleNavClick(e, "home")}
           style={{ fontFamily: "var(--font-serif), serif" }}
         >
           <span className="fw-bold fs-4" style={{ letterSpacing: "0.5px" }}>
@@ -52,22 +94,29 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto align-items-lg-center">
             {["Home", "About", "Services", "Portfolio", "Testimonials", "Contact"].map(
-              (item) => (
-                <li className="nav-item" key={item}>
-                  <a
-                    className="nav-link px-3"
-                    href={`#${item.toLowerCase()}`}
-                    style={{
-                      fontSize: "0.85rem",
-                      letterSpacing: "1.5px",
-                      textTransform: "uppercase",
-                      fontWeight: 400,
-                    }}
-                  >
-                    {item}
-                  </a>
-                </li>
-              )
+              (item) => {
+                const id = item.toLowerCase();
+                const isActive = activeSection === id;
+                return (
+                  <li className="nav-item" key={item}>
+                    <a
+                      className={`nav-link px-3 ${isActive ? "active" : ""}`}
+                      href={`#${id}`}
+                      onClick={(e) => handleNavClick(e, id)}
+                      style={{
+                        fontSize: "0.85rem",
+                        letterSpacing: "1.5px",
+                        textTransform: "uppercase",
+                        fontWeight: isActive ? 700 : 400,
+                        color: isActive ? "hsl(28 60% 60%)" : undefined,
+                        transition: "color 0.3s ease, font-weight 0.3s ease",
+                      }}
+                    >
+                      {item}
+                    </a>
+                  </li>
+                );
+              }
             )}
             <li className="nav-item ms-lg-3 mt-2 mt-lg-0">
               <a
