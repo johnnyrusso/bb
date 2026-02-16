@@ -24,10 +24,10 @@ export default function About() {
                 style={{ objectFit: "cover", height: "500px" }}
               />
               <div
-                className="position-absolute d-none d-md-flex flex-column align-items-center justify-content-center text-white"
+                className="position-absolute d-none d-lg-flex flex-column align-items-center justify-content-center text-white"
                 style={{
-                  bottom: "-30px",
-                  right: "-30px",
+                  bottom: "-20px",
+                  right: "20px",
                   width: "160px",
                   height: "160px",
                   backgroundColor: "hsl(28 60% 50%)",
