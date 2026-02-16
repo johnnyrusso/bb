@@ -1,11 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+
+const NAV_ITEMS = [
+  "Home",
+  "About",
+  "Services",
+  "Portfolio",
+  "Testimonials",
+  "Contact",
+];
 
 const sections = ["home", "about", "services", "portfolio", "testimonials", "contact"];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
@@ -13,13 +23,16 @@ export default function Navbar() {
       setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Track active section with IntersectionObserver
   useEffect(() => {
+    const sectionIds = NAV_ITEMS.map((item) => item.toLowerCase());
     const observers: IntersectionObserver[] = [];
 
-    for (const id of sections) {
+    for (const id of sectionIds) {
       const el = document.getElementById(id);
       if (!el) continue;
 
@@ -40,27 +53,26 @@ export default function Navbar() {
     };
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    e.preventDefault();
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-    // Close mobile menu
-    const toggler = document.querySelector<HTMLElement>(".navbar-collapse.show");
-    if (toggler) {
-      const bsCollapse = document.querySelector<HTMLButtonElement>(".navbar-toggler");
-      bsCollapse?.click();
-    }
-  };
+  const handleNavClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+      e.preventDefault();
+      setMenuOpen(false);
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    []
+  );
 
   return (
     <nav
-      className={`navbar navbar-expand-lg navbar-dark fixed-top ${scrolled ? "scrolled" : ""}`}
+      className={`navbar navbar-dark fixed-top ${scrolled ? "scrolled" : ""}`}
       style={{
-        backgroundColor: scrolled
-          ? "hsl(210 25% 22% / 0.97)"
-          : "transparent",
+        backgroundColor:
+          scrolled || menuOpen
+            ? "hsl(210 25% 22% / 0.97)"
+            : "transparent",
       }}
     >
       <div className="container">
@@ -80,47 +92,104 @@ export default function Navbar() {
             Building
           </span>
         </a>
+
+        {/* Hamburger toggle - visible only on small screens */}
         <button
-          className="navbar-toggler border-0"
+          className="navbar-toggler border-0 d-lg-none"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
+          onClick={() => setMenuOpen((prev) => !prev)}
           aria-controls="navbarNav"
-          aria-expanded="false"
+          aria-expanded={menuOpen}
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon" />
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto align-items-lg-center">
-            {["Home", "About", "Services", "Portfolio", "Testimonials", "Contact"].map(
-              (item) => {
-                const id = item.toLowerCase();
-                const isActive = activeSection === id;
-                return (
-                  <li className="nav-item" key={item}>
-                    <a
-                      className={`nav-link px-3 ${isActive ? "active" : ""}`}
-                      href={`#${id}`}
-                      onClick={(e) => handleNavClick(e, id)}
-                      style={{
-                        fontSize: "0.85rem",
-                        letterSpacing: "1.5px",
-                        textTransform: "uppercase",
-                        fontWeight: isActive ? 700 : 400,
-                        color: isActive ? "hsl(28 60% 60%)" : undefined,
-                        transition: "color 0.3s ease, font-weight 0.3s ease",
-                      }}
-                    >
-                      {item}
-                    </a>
-                  </li>
-                );
-              }
-            )}
-            <li className="nav-item ms-lg-3 mt-2 mt-lg-0">
+
+        {/* Desktop nav links - always visible at lg+ */}
+        <ul className="navbar-nav ms-auto align-items-center d-none d-lg-flex flex-row">
+          {NAV_ITEMS.map((item) => {
+            const id = item.toLowerCase();
+            const isActive = activeSection === id;
+            return (
+              <li className="nav-item" key={item}>
+                <a
+                  className="nav-link px-3"
+                  href={`#${id}`}
+                  onClick={(e) => handleNavClick(e, id)}
+                  style={{
+                    fontSize: "0.85rem",
+                    letterSpacing: "1.5px",
+                    textTransform: "uppercase",
+                    fontWeight: isActive ? 700 : 400,
+                    color: isActive
+                      ? "hsl(28 60% 50%)"
+                      : "rgba(255,255,255,0.85)",
+                    transition: "color 0.3s ease, font-weight 0.3s ease",
+                  }}
+                >
+                  {item}
+                </a>
+              </li>
+            );
+          })}
+          <li className="nav-item ms-3">
+            <a
+              className="btn btn-outline-light btn-sm px-4 bg-transparent"
+              href="tel:9105551234"
+              style={{
+                letterSpacing: "1px",
+                fontSize: "0.8rem",
+                borderRadius: "0",
+              }}
+            >
+              (910) 555-1234
+            </a>
+          </li>
+        </ul>
+
+        {/* Mobile menu - controlled by React state */}
+        <div
+          className="d-lg-none"
+          style={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
+            backgroundColor: "hsl(210 25% 22% / 0.97)",
+            maxHeight: menuOpen ? "500px" : "0",
+            overflow: "hidden",
+            transition: "max-height 0.35s ease",
+          }}
+        >
+          <ul className="navbar-nav py-3 px-4">
+            {NAV_ITEMS.map((item) => {
+              const id = item.toLowerCase();
+              const isActive = activeSection === id;
+              return (
+                <li className="nav-item" key={item}>
+                  <a
+                    className="nav-link py-2"
+                    href={`#${id}`}
+                    onClick={(e) => handleNavClick(e, id)}
+                    style={{
+                      fontSize: "0.9rem",
+                      letterSpacing: "1.5px",
+                      textTransform: "uppercase",
+                      fontWeight: isActive ? 700 : 400,
+                      color: isActive
+                        ? "hsl(28 60% 50%)"
+                        : "rgba(255,255,255,0.85)",
+                      transition: "color 0.3s ease",
+                    }}
+                  >
+                    {item}
+                  </a>
+                </li>
+              );
+            })}
+            <li className="nav-item mt-2">
               <a
-                className="btn btn-outline-light btn-sm px-4"
+                className="btn btn-outline-light btn-sm px-4 bg-transparent"
                 href="tel:9105551234"
                 style={{
                   letterSpacing: "1px",
