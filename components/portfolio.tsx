@@ -1,6 +1,10 @@
-'use client';
+"use client";
+
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 export default function Portfolio() {
+  const ref = useScrollAnimation();
+
   const projects = [
     {
       image: "/images/project-1.jpg",
@@ -42,9 +46,10 @@ export default function Portfolio() {
 
   return (
     <section id="portfolio" className="py-5" style={{ backgroundColor: "hsl(40 20% 97%)" }}>
-      <div className="container py-5">
+      <div className="container py-5" ref={ref}>
         <div className="text-center mb-5">
           <p
+            data-animate="fade-up"
             className="text-uppercase mb-2"
             style={{
               color: "hsl(28 60% 50%)",
@@ -56,6 +61,8 @@ export default function Portfolio() {
             Our Work
           </p>
           <h2
+            data-animate="fade-up"
+            data-delay="1"
             className="display-6 fw-bold mb-3"
             style={{
               fontFamily: "var(--font-serif), serif",
@@ -65,6 +72,8 @@ export default function Portfolio() {
             Featured Projects
           </h2>
           <p
+            data-animate="fade-up"
+            data-delay="2"
             className="mx-auto"
             style={{
               maxWidth: "600px",
@@ -77,9 +86,11 @@ export default function Portfolio() {
           </p>
         </div>
         <div className="row g-4">
-          {projects.map((project) => (
+          {projects.map((project, index) => (
             <div className="col-md-6 col-lg-4" key={project.title}>
               <div
+                data-animate="scale-in"
+                data-delay={index + 1}
                 className="position-relative overflow-hidden"
                 style={{ cursor: "pointer" }}
               >

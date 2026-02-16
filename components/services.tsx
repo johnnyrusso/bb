@@ -1,6 +1,10 @@
-'use client';
+"use client";
+
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 export default function Services() {
+  const ref = useScrollAnimation();
+
   const services = [
     {
       icon: "bi-house-door",
@@ -46,9 +50,10 @@ export default function Services() {
       className="py-5"
       style={{ backgroundColor: "hsl(210 25% 22%)" }}
     >
-      <div className="container py-5">
+      <div className="container py-5" ref={ref}>
         <div className="text-center mb-5">
           <p
+            data-animate="fade-up"
             className="text-uppercase mb-2"
             style={{
               color: "hsl(28 60% 60%)",
@@ -60,12 +65,16 @@ export default function Services() {
             What We Do
           </p>
           <h2
+            data-animate="fade-up"
+            data-delay="1"
             className="display-6 fw-bold text-white mb-3"
             style={{ fontFamily: "var(--font-serif), serif" }}
           >
             Our Services
           </h2>
           <p
+            data-animate="fade-up"
+            data-delay="2"
             className="mx-auto"
             style={{
               maxWidth: "600px",
@@ -78,9 +87,11 @@ export default function Services() {
           </p>
         </div>
         <div className="row g-4">
-          {services.map((service) => (
+          {services.map((service, index) => (
             <div className="col-md-6 col-lg-4" key={service.title}>
               <div
+                data-animate="fade-up"
+                data-delay={index + 1}
                 className="h-100 p-4 p-lg-5"
                 style={{
                   backgroundColor: "hsl(210 25% 26%)",
