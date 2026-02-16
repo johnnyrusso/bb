@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 export default function Contact() {
+  const ref = useScrollAnimation();
   const [submitted, setSubmitted] = useState(false);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -12,10 +14,11 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-5" style={{ backgroundColor: "hsl(40 20% 97%)" }}>
-      <div className="container py-5">
+      <div className="container py-5" ref={ref}>
         <div className="row g-5">
           <div className="col-lg-5">
             <p
+              data-animate="fade-right"
               className="text-uppercase mb-2"
               style={{
                 color: "hsl(28 60% 50%)",
@@ -27,6 +30,8 @@ export default function Contact() {
               Contact Us
             </p>
             <h2
+              data-animate="fade-right"
+              data-delay="1"
               className="display-6 fw-bold mb-4"
               style={{
                 fontFamily: "var(--font-serif), serif",
@@ -38,6 +43,8 @@ export default function Contact() {
               Something Great
             </h2>
             <p
+              data-animate="fade-right"
+              data-delay="2"
               className="mb-5"
               style={{
                 color: "hsl(210 10% 40%)",
@@ -49,7 +56,7 @@ export default function Contact() {
               we will guide you through every step of the process.
             </p>
 
-            <div className="d-flex flex-column gap-4">
+            <div className="d-flex flex-column gap-4" data-animate="fade-right" data-delay="3">
               <div className="d-flex align-items-start gap-3">
                 <i
                   className="bi bi-geo-alt-fill mt-1"
@@ -139,6 +146,8 @@ export default function Contact() {
 
           <div className="col-lg-7">
             <div
+              data-animate="fade-left"
+              data-delay="2"
               className="p-4 p-lg-5"
               style={{
                 backgroundColor: "#fff",

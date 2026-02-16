@@ -1,4 +1,10 @@
+"use client";
+
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+
 export default function Hero() {
+  const ref = useScrollAnimation();
+
   return (
     <section
       id="home"
@@ -14,10 +20,12 @@ export default function Hero() {
         className="position-absolute top-0 start-0 w-100 h-100"
         style={{ backgroundColor: "rgba(20, 30, 40, 0.6)" }}
       />
-      <div className="container position-relative" style={{ zIndex: 1 }}>
+      <div className="container position-relative" style={{ zIndex: 1 }} ref={ref}>
         <div className="row">
           <div className="col-lg-8 col-xl-7">
             <p
+              data-animate="fade-up"
+              data-delay="1"
               className="text-uppercase mb-3"
               style={{
                 color: "hsl(28 60% 60%)",
@@ -29,6 +37,8 @@ export default function Hero() {
               Wilmington, NC
             </p>
             <h1
+              data-animate="fade-up"
+              data-delay="2"
               className="display-3 fw-bold text-white mb-4"
               style={{
                 fontFamily: "var(--font-serif), serif",
@@ -42,6 +52,8 @@ export default function Hero() {
               </span>
             </h1>
             <p
+              data-animate="fade-up"
+              data-delay="3"
               className="lead text-white mb-5"
               style={{
                 fontSize: "1.15rem",
@@ -54,7 +66,7 @@ export default function Hero() {
               Building brings uncompromising craftsmanship to every project in
               the Cape Fear region.
             </p>
-            <div className="d-flex flex-wrap gap-3">
+            <div data-animate="fade-up" data-delay="4" className="d-flex flex-wrap gap-3">
               <a
                 href="#portfolio"
                 className="btn btn-lg px-5 py-3"

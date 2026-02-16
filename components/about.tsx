@@ -1,4 +1,10 @@
+"use client";
+
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+
 export default function About() {
+  const ref = useScrollAnimation();
+
   const stats = [
     { number: "20+", label: "Years Experience" },
     { number: "150+", label: "Homes Built" },
@@ -7,10 +13,10 @@ export default function About() {
 
   return (
     <section id="about" className="py-5" style={{ backgroundColor: "hsl(40 20% 97%)" }}>
-      <div className="container py-5">
+      <div className="container py-5" ref={ref}>
         <div className="row align-items-center g-5">
           <div className="col-lg-6">
-            <div className="position-relative">
+            <div className="position-relative" data-animate="fade-left">
               <img
                 src="/images/interior-showcase.jpg"
                 alt="Luxury open-concept living space with coastal design by Blanton Building"
@@ -41,6 +47,8 @@ export default function About() {
           </div>
           <div className="col-lg-6">
             <p
+              data-animate="fade-right"
+              data-delay="1"
               className="text-uppercase mb-2"
               style={{
                 color: "hsl(28 60% 50%)",
@@ -52,6 +60,8 @@ export default function About() {
               About Us
             </p>
             <h2
+              data-animate="fade-right"
+              data-delay="2"
               className="display-6 fw-bold mb-4"
               style={{
                 fontFamily: "var(--font-serif), serif",
@@ -63,6 +73,8 @@ export default function About() {
               in Tradition
             </h2>
             <p
+              data-animate="fade-right"
+              data-delay="3"
               className="mb-4"
               style={{
                 color: "hsl(210 10% 40%)",
@@ -76,6 +88,8 @@ export default function About() {
               the beauty of coastal North Carolina.
             </p>
             <p
+              data-animate="fade-right"
+              data-delay="4"
               className="mb-5"
               style={{
                 color: "hsl(210 10% 40%)",
@@ -88,7 +102,7 @@ export default function About() {
               &mdash; built with integrity, attention to detail, and a deep
               respect for the land.
             </p>
-            <div className="row g-4">
+            <div className="row g-4" data-animate="fade-up" data-delay="5">
               {stats.map((stat) => (
                 <div className="col-4" key={stat.label}>
                   <div

@@ -1,4 +1,10 @@
+"use client";
+
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+
 export default function Testimonials() {
+  const ref = useScrollAnimation();
+
   const testimonials = [
     {
       quote:
@@ -26,9 +32,10 @@ export default function Testimonials() {
       className="py-5"
       style={{ backgroundColor: "hsl(40 25% 94%)" }}
     >
-      <div className="container py-5">
+      <div className="container py-5" ref={ref}>
         <div className="text-center mb-5">
           <p
+            data-animate="fade-up"
             className="text-uppercase mb-2"
             style={{
               color: "hsl(28 60% 50%)",
@@ -40,6 +47,8 @@ export default function Testimonials() {
             Testimonials
           </p>
           <h2
+            data-animate="fade-up"
+            data-delay="1"
             className="display-6 fw-bold mb-3"
             style={{
               fontFamily: "var(--font-serif), serif",
@@ -50,9 +59,11 @@ export default function Testimonials() {
           </h2>
         </div>
         <div className="row g-4">
-          {testimonials.map((t) => (
+          {testimonials.map((t, index) => (
             <div className="col-lg-4" key={t.name}>
               <div
+                data-animate="fade-up"
+                data-delay={index + 1}
                 className="h-100 p-4 p-lg-5 d-flex flex-column"
                 style={{
                   backgroundColor: "#fff",
