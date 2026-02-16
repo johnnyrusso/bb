@@ -11,6 +11,8 @@ const NAV_ITEMS = [
   "Contact",
 ];
 
+const sections = ["home", "about", "services", "portfolio", "testimonials", "contact"];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
