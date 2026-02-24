@@ -2,112 +2,73 @@
 
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
+const METRICS = [
+  { value: "20+", label: "Years Local Experience" },
+  { value: "150+", label: "Projects Delivered" },
+  { value: "End-to-End", label: "Design-Build Process" },
+];
+
 export default function Hero() {
   const ref = useScrollAnimation();
 
   return (
-    <section
-      id="home"
-      className="position-relative d-flex align-items-center"
-      style={{
-        minHeight: "100vh",
-        backgroundImage: "url(/images/exterior-showcase.jpg)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <section id="home" className="hero-bg d-flex align-items-center">
       <div
-        className="position-absolute top-0 start-0 w-100 h-100"
-        style={{ backgroundColor: "rgba(20, 30, 40, 0.6)" }}
+        className="hero-fallback"
+        style={{ backgroundImage: "url('/images/exterior-showcase.jpg')" }}
+        aria-hidden="true"
       />
-      <div className="container position-relative" style={{ zIndex: 1 }} ref={ref}>
+      <video
+        className="hero-video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster="/images/exterior-showcase.jpg"
+        aria-hidden="true"
+      >
+        <source src="/videos/hero-loop.mp4" type="video/mp4" />
+      </video>
+      <div className="hero-overlay" aria-hidden="true" />
+
+      <div className="container hero-content" ref={ref}>
         <div className="row">
-          <div className="col-lg-8 col-xl-7">
-            <p
-              data-animate="fade-up"
-              data-delay="1"
-              className="text-uppercase mb-3"
-              style={{
-                color: "hsl(28 60% 60%)",
-                letterSpacing: "3px",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-              }}
-            >
-              Wilmington, NC
+          <div className="col-lg-9 col-xl-8">
+            <p data-animate="fade-up" data-delay="1" className="hero-eyebrow">
+              Wilmington, NC Custom Homes &amp; Renovations
             </p>
-            <h1
-              data-animate="fade-up"
-              data-delay="2"
-              className="display-3 fw-bold text-white mb-4"
-              style={{
-                fontFamily: "var(--font-serif), serif",
-                lineHeight: 1.15,
-              }}
-            >
-              Building Homes
+            <h1 data-animate="fade-up" data-delay="2" className="hero-title">
+              Coastal homes with staying power.
               <br />
-              <span style={{ color: "hsl(28 60% 60%)" }}>
-                Built to Last
-              </span>
+              <span className="hero-title-accent">Built for how you live.</span>
             </h1>
-            <p
-              data-animate="fade-up"
-              data-delay="3"
-              className="lead text-white mb-5"
-              style={{
-                fontSize: "1.15rem",
-                lineHeight: 1.7,
-                opacity: 0.9,
-                maxWidth: "540px",
-              }}
-            >
-              From custom coastal residences to thoughtful renovations, Blanton
-              Building brings uncompromising craftsmanship to every project in
-              the Cape Fear region.
+            <p data-animate="fade-up" data-delay="3" className="hero-lead">
+              From ground-up custom builds to high-impact renovations, Blanton
+              Building delivers detail-driven craftsmanship across the Cape Fear
+              region.
             </p>
-            <div data-animate="fade-up" data-delay="4" className="d-flex flex-wrap gap-3">
-              <a
-                href="#portfolio"
-                className="btn btn-lg px-5 py-3"
-                style={{
-                  backgroundColor: "hsl(28 60% 50%)",
-                  borderColor: "hsl(28 60% 50%)",
-                  color: "#fff",
-                  borderRadius: 0,
-                  letterSpacing: "1.5px",
-                  fontSize: "0.85rem",
-                  textTransform: "uppercase",
-                  fontWeight: 700,
-                }}
-              >
-                View Our Work
+            <div data-animate="fade-up" data-delay="4" className="hero-cta-group">
+              <a href="#portfolio" className="btn btn-lg px-5 py-3 bb-btn-primary">
+                Explore Projects
               </a>
-              <a
-                href="#contact"
-                className="btn btn-outline-light btn-lg px-5 py-3"
-                style={{
-                  borderRadius: 0,
-                  letterSpacing: "1.5px",
-                  fontSize: "0.85rem",
-                  textTransform: "uppercase",
-                  fontWeight: 700,
-                }}
-              >
-                Get in Touch
+              <a href="#contact" className="btn btn-outline-light btn-lg px-5 py-3 bb-btn-outline-light">
+                Start Your Project
               </a>
+            </div>
+            <div data-animate="fade-up" data-delay="5" className="hero-metrics">
+              {METRICS.map((metric) => (
+                <div className="hero-metric" key={metric.label}>
+                  <p className="hero-metric-value">{metric.value}</p>
+                  <p className="hero-metric-label">{metric.label}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
-      <div
-        className="position-absolute bottom-0 start-0 w-100"
-        style={{
-          height: "120px",
-          background:
-            "linear-gradient(to top, hsl(40 20% 97%), transparent)",
-        }}
-      />
+
+      <div className="hero-bottom-fade" aria-hidden="true" />
     </section>
   );
 }

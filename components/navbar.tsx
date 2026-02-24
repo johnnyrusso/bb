@@ -11,8 +11,6 @@ const NAV_ITEMS = [
   "Contact",
 ];
 
-const sections = ["home", "about", "services", "portfolio", "testimonials", "contact"];
-
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,14 +18,13 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 30);
     };
     window.addEventListener("scroll", handleScroll);
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Track active section with IntersectionObserver
   useEffect(() => {
     const sectionIds = NAV_ITEMS.map((item) => item.toLowerCase());
     const observers: IntersectionObserver[] = [];
@@ -42,7 +39,7 @@ export default function Navbar() {
             setActiveSection(id);
           }
         },
-        { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+        { rootMargin: "-42% 0px -50% 0px", threshold: 0 }
       );
       observer.observe(el);
       observers.push(observer);
@@ -65,35 +62,27 @@ export default function Navbar() {
     []
   );
 
+  const showSolidNav = scrolled || menuOpen;
+
   return (
     <nav
-      className={`navbar navbar-dark fixed-top ${scrolled ? "scrolled" : ""}`}
+      className={`navbar navbar-dark fixed-top bb-navbar ${scrolled ? "scrolled" : ""}`}
       style={{
-        backgroundColor:
-          scrolled || menuOpen
-            ? "hsl(210 25% 22% / 0.97)"
-            : "transparent",
+        backgroundColor: showSolidNav ? "rgba(8, 14, 21, 0.94)" : "transparent",
+        backdropFilter: showSolidNav ? "blur(8px)" : "none",
       }}
     >
       <div className="container">
         <a
-          className="navbar-brand d-flex align-items-center"
+          className="navbar-brand d-flex align-items-center bb-navbar-brand"
           href="#home"
           onClick={(e) => handleNavClick(e, "home")}
-          style={{ fontFamily: "var(--font-serif), serif" }}
+          aria-label="Go to top of page"
         >
-          <span className="fw-bold fs-4" style={{ letterSpacing: "0.5px" }}>
-            BLANTON
-          </span>
-          <span
-            className="ms-2 fw-light fs-6 text-uppercase"
-            style={{ letterSpacing: "2px", opacity: 0.85 }}
-          >
-            Building
-          </span>
+          <span className="bb-brand-wordmark">BLANTON</span>
+          <span className="bb-brand-sub">Building</span>
         </a>
 
-        {/* Hamburger toggle - visible only on small screens */}
         <button
           className="navbar-toggler border-0 d-lg-none"
           type="button"
@@ -105,7 +94,6 @@ export default function Navbar() {
           <span className="navbar-toggler-icon" />
         </button>
 
-        {/* Desktop nav links - always visible at lg+ */}
         <ul className="navbar-nav ms-auto align-items-center d-none d-lg-flex flex-row">
           {NAV_ITEMS.map((item) => {
             const id = item.toLowerCase();
@@ -113,19 +101,9 @@ export default function Navbar() {
             return (
               <li className="nav-item" key={item}>
                 <a
-                  className="nav-link px-3"
+                  className={`nav-link px-3 bb-nav-link ${isActive ? "active" : ""}`}
                   href={`#${id}`}
                   onClick={(e) => handleNavClick(e, id)}
-                  style={{
-                    fontSize: "0.85rem",
-                    letterSpacing: "1.5px",
-                    textTransform: "uppercase",
-                    fontWeight: isActive ? 700 : 400,
-                    color: isActive
-                      ? "hsl(28 60% 50%)"
-                      : "rgba(255,255,255,0.85)",
-                    transition: "color 0.3s ease, font-weight 0.3s ease",
-                  }}
                 >
                   {item}
                 </a>
@@ -133,34 +111,13 @@ export default function Navbar() {
             );
           })}
           <li className="nav-item ms-3">
-            <a
-              className="btn btn-outline-light btn-sm px-4 bg-transparent"
-              href="tel:9105551234"
-              style={{
-                letterSpacing: "1px",
-                fontSize: "0.8rem",
-                borderRadius: "0",
-              }}
-            >
+            <a className="btn btn-outline-light btn-sm px-4 bb-btn-outline-light" href="tel:9105551234">
               (910) 555-1234
             </a>
           </li>
         </ul>
 
-        {/* Mobile menu - controlled by React state */}
-        <div
-          className="d-lg-none"
-          style={{
-            position: "absolute",
-            top: "100%",
-            left: 0,
-            right: 0,
-            backgroundColor: "hsl(210 25% 22% / 0.97)",
-            maxHeight: menuOpen ? "500px" : "0",
-            overflow: "hidden",
-            transition: "max-height 0.35s ease",
-          }}
-        >
+        <div className={`d-lg-none bb-mobile-menu ${menuOpen ? "open" : ""}`}>
           <ul className="navbar-nav py-3 px-4">
             {NAV_ITEMS.map((item) => {
               const id = item.toLowerCase();
@@ -168,19 +125,9 @@ export default function Navbar() {
               return (
                 <li className="nav-item" key={item}>
                   <a
-                    className="nav-link py-2"
+                    className={`nav-link py-2 bb-nav-link ${isActive ? "active" : ""}`}
                     href={`#${id}`}
                     onClick={(e) => handleNavClick(e, id)}
-                    style={{
-                      fontSize: "0.9rem",
-                      letterSpacing: "1.5px",
-                      textTransform: "uppercase",
-                      fontWeight: isActive ? 700 : 400,
-                      color: isActive
-                        ? "hsl(28 60% 50%)"
-                        : "rgba(255,255,255,0.85)",
-                      transition: "color 0.3s ease",
-                    }}
                   >
                     {item}
                   </a>
@@ -188,15 +135,7 @@ export default function Navbar() {
               );
             })}
             <li className="nav-item mt-2">
-              <a
-                className="btn btn-outline-light btn-sm px-4 bg-transparent"
-                href="tel:9105551234"
-                style={{
-                  letterSpacing: "1px",
-                  fontSize: "0.8rem",
-                  borderRadius: "0",
-                }}
-              >
+              <a className="btn btn-outline-light btn-sm px-4 bb-btn-outline-light" href="tel:9105551234">
                 (910) 555-1234
               </a>
             </li>
