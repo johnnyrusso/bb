@@ -2,12 +2,13 @@
   "name": "my-project",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@9.15.4",
+  "packageManager": "pnpm@10.30.2",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build --webpack",
-    "start": "PORT=3001 next start",
-    "lint": "eslint ."
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
