@@ -1,0 +1,11 @@
+[
+  {
+    "id": "builtin_group_id",
+    "name": "Currently Open Files",
+    "files": [
+      "next.config.mjs",
+      "postcss.config.mjs"
+    ],
+    "builtIn": true
+  }
+]
